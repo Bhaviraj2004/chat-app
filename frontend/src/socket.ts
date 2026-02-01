@@ -9,7 +9,9 @@
 
 import { io } from "socket.io-client";
 
-export const socket = io(import.meta.env.VITE_SOCKET_URL, {
-  withCredentials: true,
-  autoConnect: false,
-});
+export const socket = io(
+  "https://chat-backend.onrender.com",
+  {
+    withCredentials: true,
+  }
+);
