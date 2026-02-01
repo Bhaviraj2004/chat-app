@@ -9,7 +9,10 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:5173', // Vite React app ka default port
+    origin: [
+      'http://localhost:5173',
+      'https://chat-app-khaki-delta-97.vercel.app',
+    ],
     credentials: true,
   },
 })
