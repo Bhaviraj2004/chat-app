@@ -1,3 +1,4 @@
+// chat.gateway.ts
 import {
   WebSocketGateway,
   SubscribeMessage,
@@ -11,6 +12,7 @@ import {
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
+  // path: '/socket.io' ❌ YEH LINE REMOVE KARO
   cors: {
     origin: [
       'http://localhost:5173',
@@ -25,22 +27,18 @@ export class ChatGateway
   @WebSocketServer()
   server: Server;
 
-  // Gateway initialize hone par
   afterInit(server: Server) {
     console.log('✅ WebSocket Gateway Initialized');
   }
 
-  // Jab koi user connect hota hai
   handleConnection(client: Socket) {
     console.log(`✅ Client connected: ${client.id}`);
   }
 
-  // Jab koi user disconnect hota hai
   handleDisconnect(client: Socket) {
     console.log(`❌ Client disconnected: ${client.id}`);
   }
 
-  // Message receive karne ke liye
   @SubscribeMessage('sendMessage')
   handleMessage(
     @MessageBody() data: { user: string; message: string },
@@ -48,7 +46,6 @@ export class ChatGateway
   ) {
     console.log('📨 Message received:', data);
 
-    // Sabhi connected clients ko message bhejein
     this.server.emit('receiveMessage', {
       user: data.user,
       message: data.message,
@@ -58,7 +55,6 @@ export class ChatGateway
     return data;
   }
 
-  // Typing indicator
   @SubscribeMessage('typing')
   handleTyping(
     @MessageBody() data: { user: string; isTyping: boolean },
