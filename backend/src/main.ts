@@ -10,9 +10,15 @@ async function bootstrap() {
       'https://chat-app-khaki-delta-97.vercel.app',
     ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
   const port = process.env.PORT || 3000;
-  await app.listen(port);
+  
+  // IMPORTANT: '0.0.0.0' add karo (Render ke liye zaroori hai)
+  await app.listen(port, '0.0.0.0');
+  
+  console.log(`🚀 Server is running on port ${port}`);
+  console.log(`📡 WebSocket available at ws://localhost:${port}/socket.io`);
 }
 bootstrap();
