@@ -1,8 +1,12 @@
+// main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useWebSocketAdapter(new IoAdapter(app));
 
   app.enableCors({
     origin: [
@@ -10,15 +14,11 @@ async function bootstrap() {
       'https://chat-app-khaki-delta-97.vercel.app',
     ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
   const port = process.env.PORT || 3000;
-  
-  // IMPORTANT: '0.0.0.0' add karo (Render ke liye zaroori hai)
   await app.listen(port, '0.0.0.0');
   
-  console.log(`🚀 Server is running on port ${port}`);
-  console.log(`📡 WebSocket available at ws://localhost:${port}/socket.io`);
+  console.log(`🚀 Server running on ${port}`);
 }
 bootstrap();
